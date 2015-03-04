@@ -20,6 +20,24 @@ public class Side {
         }
     }
 
+    /**
+     * Turns 90 degrees right cube side
+     */
+    public void turnRight() {
+        for (int i = 0; i < SIDE_SIZE / 2; i++) {
+            int last = SIDE_SIZE - i - 1;
+            for (int j = i; j < last; j++) {
+                boolean tmp = side[i][j];
+                side[i][j] = side[last - j][i];
+
+                side[last][last - j] = side[j][last];
+                side[last - j][i] = side[last][last - j];
+
+                side[j][last] = tmp;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(SIDE_SIZE * SIDE_SIZE);
@@ -33,5 +51,4 @@ public class Side {
 
         return sb.toString();
     }
-
 }

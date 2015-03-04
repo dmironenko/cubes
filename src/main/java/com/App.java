@@ -20,7 +20,6 @@ public class App {
             System.out.println(s);
         }
 
-
     }
 
     private static List<Side> readSides(InputStream stream) throws IOException {
