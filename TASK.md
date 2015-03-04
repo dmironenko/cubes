@@ -10,6 +10,7 @@ http://www.happycube.com/
 
 Here is an example:
 The pieces of the blue cube look as follows:
+```sh
   o  o o o  o  
  ooo ooooo oooo
 ooooo ooo oooo 
@@ -20,8 +21,10 @@ oooo ooooo oooo
  oooo ooo oooo 
 oooo ooooo oooo
 oo o o o  oo oo
+```
 
 One of the solutions in "unfolded form" looks as follows:
+```sh
   o    o o o o 
  ooo ooooo ooo 
 ooooo ooo ooooo
@@ -42,7 +45,7 @@ ooooo ooo ooooo
       oooo     
      oooo      
      oo o      
-
+```
 Additional challenge 1 : All unique solutions :
 In the base task you are only required to find one solution and to
 print it into a file. The additional challenge 1 is to extend your
@@ -63,16 +66,20 @@ matching piece in the other set. A corresponding matching piece is a
 piece into which you can transform your piece at hand by rotating or
 mirroring it in two dimensions. No side of a piece must be "flat",
 e.g. a piece that looks like this:
+```sh
  ooooo
  ooooo
  ooooo
  ooooo
  ooooo
+```
 would not be allowed. The piece must be physikal producible, e.g a
 piece that has a corner like this is not allowed:
+```sh
      o
  oooo 
  oooo 
  oooo 
  oooo 
+```
 Here the corner would easily break and fall off.
