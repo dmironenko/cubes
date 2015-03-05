@@ -12,9 +12,9 @@ public class App {
     public static void main(String[] args) throws IOException {
         InputStream stream = App.class.getClassLoader().getResourceAsStream("blue_cube.txt");
 
-        List<Side> result = FileUtils.readSides(stream);
+        List<Side> sides = FileUtils.readSides(stream);
 
-        for (Side s : result) {
+        for (Side s : sides) {
             System.out.println(s);
         }
 

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Side {
-    static final int SIDE_SIZE = 5;
+    private static final int SIDE_SIZE = 5;
 
     private final boolean sides[][] = new boolean[SIDE_SIZE][SIDE_SIZE];
 
@@ -51,5 +51,18 @@ public class Side {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return Arrays.deepEquals(sides, ((Side) o).sides);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(sides);
     }
 }
