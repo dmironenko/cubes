@@ -2,40 +2,37 @@ package com.cubes;
 
 import com.util.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Facet {
-    private final int FACET_SIZE = 5;
-    private final int FACET_COUNT = 4;
+    public static final char CHAR_O = 'o';
+    public static final char CHAR_SPACE = ' ';
 
-    private boolean[][] sides = new boolean[FACET_COUNT][FACET_SIZE];
+    public static final int FACET_SIZE = 5;
+    public static final int FACET_COUNT = 4;
+
+    private final boolean[][] sides = new boolean[FACET_COUNT][FACET_SIZE];
     private int flag = 0;
 
+    /**
+     * Stores only sides in order of @{Side} enum
+     */
     public Facet(List<String> lines) {
         String line1 = lines.get(0);
-        for (int i = 0; i < FACET_SIZE; i++) {
-            sides[0][i] = line1.charAt(i) == 'o';
-        }
-
-        for (int i = 0; i < FACET_SIZE; i++) {
-            String line = lines.get(i);
-            sides[1][i] = line.charAt(4) == 'o';
-        }
-
         String line5 = lines.get(4);
-        for (int i = FACET_SIZE - 1; i >= 0; i--) {
-            sides[2][FACET_SIZE - i - 1] = line5.charAt(i) == 'o';
-        }
-
-        for (int i = FACET_SIZE - 1; i >= 0; i--) {
+        for (int i = 0; i < FACET_SIZE; i++) {
             String line = lines.get(i);
-            sides[3][FACET_SIZE - i - 1] = line.charAt(0) == 'o';
+            sides[0][i] = line1.charAt(i) == CHAR_O;
+            sides[1][i] = line.charAt(4) == CHAR_O;
+
+            sides[2][FACET_SIZE - i - 1] = line5.charAt(i) == CHAR_O;
+            sides[3][FACET_SIZE - i - 1] = line.charAt(0) == CHAR_O;
         }
     }
 
-    Facet(boolean[][] sides) {
-        this.sides = sides;
+    Facet() {
     }
 
     public void turn() {
@@ -49,11 +46,11 @@ public class Facet {
     }
 
     private void roundCheck() {
-        if (flag % 4 == 0) turnAround();
+        if (flag % 4 == 0) mirror();
         flag += 1;
     }
 
-    private void turnAround() {
+    private void mirror() {
         for (boolean[] side : sides) {
             ArrayUtils.reverse(side);
         }
@@ -70,7 +67,7 @@ public class Facet {
 
 
     Facet deepCopy() {
-        Facet facet = new Facet(new boolean[4][5]);
+        Facet facet = new Facet();
         facet.flag = flag;
 
         for (int i = 0; i < sides.length; i++) {
@@ -78,5 +75,50 @@ public class Facet {
         }
 
         return facet;
+    }
+
+    static List<Facet> deepClone(List<Facet> facets) {
+        List<Facet> clone = new ArrayList<>(facets.size());
+
+        for (Facet facet : facets) {
+            clone.add(facet.deepCopy());
+        }
+
+        return clone;
+    }
+
+    public List<String> getLines() {
+
+        List<String> lines = new ArrayList<>(FACET_SIZE);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < FACET_SIZE; i++) {
+            sb.append(toChar(sides[0][i]));
+        }
+
+        lines.add(sb.toString());
+
+        for (int i = 1; i < FACET_SIZE - 1; i++) {
+            sb = new StringBuilder();
+
+            sb.append(toChar(sides[3][FACET_SIZE - i - 1]));
+
+            sb.append(CHAR_O).append(CHAR_O).append(CHAR_O);
+            sb.append(toChar(sides[1][i]));
+            lines.add(sb.toString());
+        }
+
+        sb = new StringBuilder();
+        for (int i = FACET_SIZE - 1; i >= 0; i--) {
+            sb.append(toChar(sides[3][FACET_SIZE - i - 1]));
+        }
+
+        lines.add(sb.toString());
+
+        return lines;
+    }
+
+    char toChar(boolean c) {
+        return c ? CHAR_O : CHAR_SPACE;
     }
 }

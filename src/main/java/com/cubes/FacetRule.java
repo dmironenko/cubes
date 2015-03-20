@@ -1,6 +1,7 @@
 package com.cubes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,64 +11,66 @@ public enum FacetRule {
 
     FIRST(0) {
         @Override
-        public boolean checkFacet(Cube cube, Facet firstFacet) {
+        public boolean checkFacet(List<Facet> currentMatch, Facet firstFacet) {
             // First facet always acceptable
             return true;
         }
     },
     SECOND(1) {
         @Override
-        public boolean checkFacet(Cube cube, Facet secondFacet) {
-            return checkSides(cube.getFirstFacet().getSide(Side.RIGHT), secondFacet.getSide(Side.LEFT));
+        public boolean checkFacet(List<Facet> currentMatch, Facet secondFacet) {
+            return checkSides(getFirstFacet(currentMatch).getSide(Side.RIGHT), secondFacet.getSide(Side.LEFT));
         }
     },
     THIRD(2) {
         @Override
-        public boolean checkFacet(Cube cube, Facet thirdFacet) {
-            return checkSides(cube.getSecondFacet().getSide(Side.BOTTOM), thirdFacet.getSide(Side.TOP)) &&
-                    checkSides(cube.getFirstFacet().getSide(Side.BOTTOM), thirdFacet.getSide(Side.LEFT)) &&
-                    checkCorner(cube.getSecondFacet().getSide(Side.LEFT)[4], cube.getFirstFacet().getSide(Side.RIGHT)[4], thirdFacet.getSide(Side.TOP)[0]);
+        public boolean checkFacet(List<Facet> currentMatch, Facet thirdFacet) {
+            return checkSides(getSecondFacet(currentMatch).getSide(Side.BOTTOM), thirdFacet.getSide(Side.TOP)) &&
+                    checkSides(getFirstFacet(currentMatch).getSide(Side.BOTTOM), thirdFacet.getSide(Side.LEFT)) &&
+                    checkCorner(getSecondFacet(currentMatch).getSide(Side.LEFT)[4], getFirstFacet(currentMatch).getSide(Side.RIGHT)[4], thirdFacet.getSide(Side.TOP)[0]);
         }
     },
     FOURTH(3) {
         @Override
-        public boolean checkFacet(Cube cube, Facet forthFacet) {
-            return checkSides(cube.getSecondFacet().getSide(Side.RIGHT), forthFacet.getSide(Side.LEFT)) &&
-                    checkSides(cube.getThirdFacet().getSide(Side.RIGHT), forthFacet.getSide(Side.BOTTOM)) &&
-                    checkCorner(cube.getSecondFacet().getSide(Side.BOTTOM)[0], cube.getThirdFacet().getSide(Side.TOP)[4], forthFacet.getSide(Side.BOTTOM)[0]);
+        public boolean checkFacet(List<Facet> currentMatch, Facet forthFacet) {
+            return checkSides(getSecondFacet(currentMatch).getSide(Side.RIGHT), forthFacet.getSide(Side.LEFT)) &&
+                    checkSides(getThirdFacet(currentMatch).getSide(Side.RIGHT), forthFacet.getSide(Side.BOTTOM)) &&
+                    checkCorner(getSecondFacet(currentMatch).getSide(Side.BOTTOM)[0], getThirdFacet(currentMatch).getSide(Side.TOP)[4], forthFacet.getSide(Side.BOTTOM)[0]);
         }
     },
     FIFTH(4) {
         @Override
-        public boolean checkFacet(Cube cube, Facet fifthFacet) {
-            return checkSides(cube.getThirdFacet().getSide(Side.BOTTOM), fifthFacet.getSide(Side.TOP)) &&
-                    checkSides(cube.getFirstFacet().getSide(Side.LEFT), fifthFacet.getSide(Side.LEFT)) &&
-                    checkSides(cube.getFourthFacet().getSide(Side.RIGHT), fifthFacet.getSide(Side.RIGHT)) &&
-                    checkCorner(cube.getFirstFacet().getSide(Side.LEFT)[0], cube.getThirdFacet().getSide(Side.LEFT)[0], fifthFacet.getSide(Side.LEFT)[0]) &&
-                    checkCorner(cube.getFourthFacet().getSide(Side.RIGHT)[4], cube.getThirdFacet().getSide(Side.RIGHT)[4], fifthFacet.getSide(Side.RIGHT)[0]);
+        public boolean checkFacet(List<Facet> currentMatch, Facet fifthFacet) {
+            return checkSides(getThirdFacet(currentMatch).getSide(Side.BOTTOM), fifthFacet.getSide(Side.TOP)) &&
+                    checkSides(getFirstFacet(currentMatch).getSide(Side.LEFT), fifthFacet.getSide(Side.LEFT)) &&
+                    checkSides(getFourthFacet(currentMatch).getSide(Side.RIGHT), fifthFacet.getSide(Side.RIGHT)) &&
+                    checkCorner(getFirstFacet(currentMatch).getSide(Side.LEFT)[0], getThirdFacet(currentMatch).getSide(Side.LEFT)[0], fifthFacet.getSide(Side.LEFT)[0]) &&
+                    checkCorner(getFourthFacet(currentMatch).getSide(Side.RIGHT)[4], getThirdFacet(currentMatch).getSide(Side.RIGHT)[4], fifthFacet.getSide(Side.RIGHT)[0]);
         }
     },
     SIXTH(5) {
         @Override
-        public boolean checkFacet(Cube cube, Facet sixthFacet) {
-            return checkSides(cube.getFifthFacet().getSide(Side.BOTTOM), sixthFacet.getSide(Side.TOP)) &&
-                    checkSides(cube.getFirstFacet().getSide(Side.TOP), sixthFacet.getSide(Side.LEFT)) &&
-                    checkSides(cube.getFourthFacet().getSide(Side.TOP), sixthFacet.getSide(Side.RIGHT)) &&
-                    checkSides(cube.getSecondFacet().getSide(Side.TOP), sixthFacet.getSide(Side.BOTTOM)) &&
+        public boolean checkFacet(List<Facet> currentMatch, Facet sixthFacet) {
+            return checkSides(getFifthFacet(currentMatch).getSide(Side.BOTTOM), sixthFacet.getSide(Side.TOP)) &&
+                    checkSides(getFirstFacet(currentMatch).getSide(Side.TOP), sixthFacet.getSide(Side.LEFT)) &&
+                    checkSides(getFourthFacet(currentMatch).getSide(Side.TOP), sixthFacet.getSide(Side.RIGHT)) &&
+                    checkSides(getSecondFacet(currentMatch).getSide(Side.TOP), sixthFacet.getSide(Side.BOTTOM)) &&
 
-                    checkCorner(cube.getFifthFacet().getSide(Side.BOTTOM)[4], sixthFacet.getSide(Side.TOP)[0], cube.getFirstFacet().getSide(Side.TOP)[0]) &&
-                    checkCorner(cube.getFirstFacet().getSide(Side.TOP)[4], sixthFacet.getSide(Side.LEFT)[0], cube.getSecondFacet().getSide(Side.TOP)[0]) &&
-                    checkCorner(cube.getSecondFacet().getSide(Side.TOP)[4], sixthFacet.getSide(Side.RIGHT)[4], cube.getFourthFacet().getSide(Side.TOP)[0]) &&
-                    checkCorner(cube.getFourthFacet().getSide(Side.TOP)[4], sixthFacet.getSide(Side.TOP)[4], cube.getFifthFacet().getSide(Side.BOTTOM)[0]);
+                    checkCorner(getFifthFacet(currentMatch).getSide(Side.BOTTOM)[4], sixthFacet.getSide(Side.TOP)[0], getFirstFacet(currentMatch).getSide(Side.TOP)[0]) &&
+                    checkCorner(getFirstFacet(currentMatch).getSide(Side.TOP)[4], sixthFacet.getSide(Side.LEFT)[0], getSecondFacet(currentMatch).getSide(Side.TOP)[0]) &&
+                    checkCorner(getSecondFacet(currentMatch).getSide(Side.TOP)[4], sixthFacet.getSide(Side.RIGHT)[4], getFourthFacet(currentMatch).getSide(Side.TOP)[0]) &&
+                    checkCorner(getFourthFacet(currentMatch).getSide(Side.TOP)[4], sixthFacet.getSide(Side.TOP)[4], getFifthFacet(currentMatch).getSide(Side.BOTTOM)[0]);
         }
     };
 
     private static final Map<Integer, FacetRule> byMatchedSideCount = new HashMap<>();
+
     static {
         for (FacetRule rule : values()) {
             byMatchedSideCount.put(rule.matchedSideCount, rule);
         }
     }
+
     private final int matchedSideCount;
 
     private FacetRule(int matchedSideCount) {
@@ -81,7 +84,7 @@ public enum FacetRule {
     /**
      * Method that verifies that facet one each next position is suitable
      */
-    public abstract boolean checkFacet(Cube cube, Facet facetToCheck);
+    public abstract boolean checkFacet(List<Facet> currentMatch, Facet facetToCheck);
 
     /**
      * Checks that two sides suits each other
@@ -106,5 +109,25 @@ public enum FacetRule {
 
     private static int toInt(boolean a) {
         return a ? 1 : 0;
+    }
+
+    Facet getFirstFacet(List<Facet> currentMatch) {
+        return currentMatch.get(0);
+    }
+
+    Facet getSecondFacet(List<Facet> currentMatch) {
+        return currentMatch.get(1);
+    }
+
+    Facet getThirdFacet(List<Facet> currentMatch) {
+        return currentMatch.get(2);
+    }
+
+    Facet getFourthFacet(List<Facet> currentMatch) {
+        return currentMatch.get(3);
+    }
+
+    Facet getFifthFacet(List<Facet> currentMatch) {
+        return currentMatch.get(4);
     }
 }

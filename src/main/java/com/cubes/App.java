@@ -12,10 +12,15 @@ public class App {
         InputStream stream = App.class.getClassLoader().getResourceAsStream("blue_cube.txt");
 
         List<Facet> sides = FileUtils.readSides(stream);
-
         Cube cube = new Cube(sides);
 
-        cube.solve();
-        System.out.println(Cube.cubeList.size());
+        System.out.println(cube.toNormalForm());
+
+        Solution s = new Solution(cube);
+        List<Facet> solution = s.solve();
+        Cube c = new Cube(solution);
+
+        System.out.println(s.cubeList.size());
+        System.out.println(c.toNormalForm());
     }
 }
