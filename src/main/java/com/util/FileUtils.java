@@ -1,6 +1,6 @@
 package com.util;
 
-import com.cubes.Side;
+import com.cubes.Facet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,8 +16,11 @@ public final class FileUtils {
         throw new AssertionError("Instantiating utility class");
     }
 
-    public static List<Side> readSides(InputStream stream) throws IOException {
-        List<Side> result = new ArrayList<>();
+    /**
+     * Reads sides from input stream
+     */
+    public static List<Facet> readSides(InputStream stream) throws IOException {
+        List<Facet> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             for (int i = 0; i < 2; i++) {
@@ -37,7 +40,7 @@ public final class FileUtils {
 
 
                 }
-                result.addAll(Arrays.asList(new Side(s1), new Side(s2), new Side(s3)));
+                result.addAll(Arrays.asList(new Facet(s1), new Facet(s2), new Facet(s3)));
             }
         }
         return result;

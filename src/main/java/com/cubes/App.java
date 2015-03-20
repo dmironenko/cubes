@@ -1,6 +1,5 @@
-package com;
+package com.cubes;
 
-import com.cubes.Side;
 import com.util.FileUtils;
 
 import java.io.IOException;
@@ -12,11 +11,11 @@ public class App {
     public static void main(String[] args) throws IOException {
         InputStream stream = App.class.getClassLoader().getResourceAsStream("blue_cube.txt");
 
-        List<Side> sides = FileUtils.readSides(stream);
+        List<Facet> sides = FileUtils.readSides(stream);
 
-        for (Side s : sides) {
-            System.out.println(s);
-        }
+        Cube cube = new Cube(sides);
 
+        cube.solve();
+        System.out.println(Cube.cubeList.size());
     }
 }

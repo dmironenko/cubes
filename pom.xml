@@ -55,7 +55,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.App</mainClass>
+                            <mainClass>com.cubes.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
