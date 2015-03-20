@@ -38,7 +38,9 @@ public class Solution {
 
     private boolean findNextFacet(Cube cube, List<Facet> currentMatch, List<Facet> result) {
         if (currentMatch.size() == 6) {
-            result.addAll(currentMatch);
+            if(result.isEmpty()) {
+                result.addAll(currentMatch);
+            }
             return true;
         }
 

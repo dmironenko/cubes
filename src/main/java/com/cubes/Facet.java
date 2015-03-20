@@ -36,7 +36,7 @@ public class Facet {
     }
 
     public void turn() {
-        roundCheck();
+        mirrorIfRequired();
 
         boolean[] temp = sides[0];
         sides[0] = sides[1];
@@ -45,7 +45,7 @@ public class Facet {
         sides[3] = temp;
     }
 
-    private void roundCheck() {
+    private void mirrorIfRequired() {
         if (flag % 4 == 0) mirror();
         flag += 1;
     }
