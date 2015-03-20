@@ -108,7 +108,7 @@ public class Facet {
         }
 
         sb = new StringBuilder();
-        for (int i = FACET_SIZE - 1; i >= 0; i--) {
+        for (int i = 0; i < FACET_SIZE; i++) {
             sb.append(toChar(sides[2][FACET_SIZE - i - 1]));
         }
 
