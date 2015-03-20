@@ -34,14 +34,14 @@ public class Cube {
      *   6
      */
     public String toNormalForm() {
-        List<String> emtyFacetLines = Arrays.asList("     ", "     ", "     ", "     ", "     ");
+        List<String> emptyFacetLines = Arrays.asList("     ", "     ", "     ", "     ", "     ");
 
         StringBuilder sb = new StringBuilder();
 
         appendLines(cubeFacets.get(0).getLines(), cubeFacets.get(1).getLines(), cubeFacets.get(3).getLines(), sb);
-        appendLines(emtyFacetLines, cubeFacets.get(2).getLines(), emtyFacetLines, sb);
-        appendLines(emtyFacetLines, cubeFacets.get(4).getLines(), emtyFacetLines, sb);
-        appendLines(emtyFacetLines, cubeFacets.get(5).getLines(), emtyFacetLines, sb);
+        appendLines(emptyFacetLines, cubeFacets.get(2).getLines(), emptyFacetLines, sb);
+        appendLines(emptyFacetLines, cubeFacets.get(4).getLines(), emptyFacetLines, sb);
+        appendLines(emptyFacetLines, cubeFacets.get(5).getLines(), emptyFacetLines, sb);
 
         return sb.toString();
     }

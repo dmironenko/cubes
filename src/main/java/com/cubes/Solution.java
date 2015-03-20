@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class Solution {
 
-    public static List<Cube> cubeList = new ArrayList<>();
-
     private final Cube cube;
 
     public Solution(Cube cube) {
@@ -25,24 +23,22 @@ public class Solution {
      * Solves happy cube in brute force way.
      * Takes each facet one by one turns / mirrors them and verifies that they suit each other
      */
-    public List<Facet> solve() {
+    public Cube solve() {
         // First step of recursion
-        Cube c = cube.deepCopy();
+        Cube copy = cube.deepCopy();
+
         List<Facet> matchedFacets = new ArrayList<>();
-        matchedFacets.add(c.getCubeFacets().remove(0));
+        matchedFacets.add(copy.getCubeFacets().remove(0));
 
         List<Facet> result = new ArrayList<>();
-        findNextFacet(c, matchedFacets, result);
+        findNextFacet(copy, matchedFacets, result);
 
-        return result;
+        return new Cube(result);
     }
 
     private boolean findNextFacet(Cube cube, List<Facet> currentMatch, List<Facet> result) {
         if (currentMatch.size() == 6) {
-            if(result.isEmpty()) {
-                result.addAll(currentMatch);
-            }
-            cubeList.add(cube);
+            result.addAll(currentMatch);
             return true;
         }
 

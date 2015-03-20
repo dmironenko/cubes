@@ -19,7 +19,7 @@ public final class FileUtils {
     /**
      * Reads sides from input stream
      */
-    public static List<Facet> readSides(InputStream stream) throws IOException {
+    public static List<Facet> readFacets(InputStream stream) throws IOException {
         List<Facet> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {

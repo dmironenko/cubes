@@ -4,23 +4,32 @@ import com.util.FileUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class App {
 
     public static void main(String[] args) throws IOException {
-        InputStream stream = App.class.getClassLoader().getResourceAsStream("blue_cube.txt");
+        InputStream stream;
 
-        List<Facet> sides = FileUtils.readSides(stream);
-        Cube cube = new Cube(sides);
+        if (args == null || args.length == 0) {
+            stream = App.class.getClassLoader().getResourceAsStream("blue_cube.txt");
+        } else {
+            // Assuming args[0] contains path to file with facet
+            stream = Files.newInputStream(Paths.get(args[0]));
+        }
+
+        Cube cube = new Cube(FileUtils.readFacets(stream));
 
         System.out.println(cube.toNormalForm());
 
-        Solution s = new Solution(cube);
-        List<Facet> solution = s.solve();
-        Cube c = new Cube(solution);
+        System.out.println();
+        System.out.println();
 
-        System.out.println(s.cubeList.size());
+        Solution s = new Solution(cube);
+
+        Cube c = s.solve();
+
         System.out.println(c.toNormalForm());
     }
 }

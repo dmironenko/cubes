@@ -65,7 +65,6 @@ public class Facet {
         return Arrays.deepToString(sides);
     }
 
-
     Facet deepCopy() {
         Facet facet = new Facet();
         facet.flag = flag;
@@ -110,7 +109,7 @@ public class Facet {
 
         sb = new StringBuilder();
         for (int i = FACET_SIZE - 1; i >= 0; i--) {
-            sb.append(toChar(sides[3][FACET_SIZE - i - 1]));
+            sb.append(toChar(sides[2][FACET_SIZE - i - 1]));
         }
 
         lines.add(sb.toString());
