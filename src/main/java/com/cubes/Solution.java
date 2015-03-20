@@ -42,6 +42,7 @@ public class Solution {
             if(result.isEmpty()) {
                 result.addAll(currentMatch);
             }
+            cubeList.add(cube);
             return true;
         }
 
