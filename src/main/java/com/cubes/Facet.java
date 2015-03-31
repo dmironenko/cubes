@@ -10,9 +10,6 @@ import static com.cubes.FacetSide.LEFT;
 import static com.cubes.FacetSide.RIGHT;
 import static com.cubes.FacetSide.TOP;
 
-/**
- * Class contains 2d array of facet
- */
 public class Facet {
 
     public static final int FACET_SIZE = 5;
@@ -43,6 +40,9 @@ public class Facet {
         }
     }
 
+    /**
+     * Return all possible permutation of current facet
+     */
     public List<Facet> getAllPermutations() {
         List<Facet> result = new ArrayList<>(MAX_PERMUTATIONS);
 

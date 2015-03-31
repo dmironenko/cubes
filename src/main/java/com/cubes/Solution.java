@@ -26,6 +26,9 @@ class Solution {
         return findNextFacet(cube.getFaces(), new LinkedList<Facet>());
     }
 
+    /**
+     * Recursively searches for matching facets by getting all permutations and trying to match it to already matched
+     */
     private Cube findNextFacet(List<Facet> allFaces, List<Facet> matched) {
 
         for (Facet facet : allFaces) {

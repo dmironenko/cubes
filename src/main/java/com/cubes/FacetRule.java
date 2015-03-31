@@ -10,6 +10,9 @@ import static com.cubes.FacetSide.LEFT;
 import static com.cubes.FacetSide.RIGHT;
 import static com.cubes.FacetSide.TOP;
 
+/**
+ * Class contains rules that each next facet suits it's position
+ */
 public enum FacetRule {
 
     FIRST(0) {
@@ -94,6 +97,9 @@ public enum FacetRule {
         this.matchedSideCount = matchedSideCount;
     }
 
+    /**
+     * Factory method for getting rule by count of already matched facets
+     */
     public static FacetRule byAlreadyMatchedSideCount(int count) {
         return byMatchedSideCount.get(count);
     }
