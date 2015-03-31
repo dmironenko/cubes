@@ -11,7 +11,9 @@ class Cube {
 
     public final static int FACETS_COUNT = 6;
 
-    private List<FacePermutation> cube = new ArrayList<>();
+    private static final List<String> EMPTY_FACET_LINES = Arrays.asList("     ", "     ", "     ", "     ", "     ");
+
+    private List<Facet> cube = new ArrayList<>();
     private final List<Facet> cubeFaces;
 
     public Cube(List<Facet> cubeFaces) {
@@ -21,20 +23,20 @@ class Cube {
     /**
      * Solution is stored next way
      * 1 2 4
-     *   3
-     *   5
-     *   6
+     * 3
+     * 5
+     * 6
      */
     @Override
     public String toString() {
-        List<String> emptyFacetLines = Arrays.asList("     ", "     ", "     ", "     ", "     ");
+
 
         StringBuilder sb = new StringBuilder();
 
         appendLines(cube.get(0).getLines(), cube.get(1).getLines(), cube.get(3).getLines(), sb);
-        appendLines(emptyFacetLines, cube.get(2).getLines(), emptyFacetLines, sb);
-        appendLines(emptyFacetLines, cube.get(4).getLines(), emptyFacetLines, sb);
-        appendLines(emptyFacetLines, cube.get(5).getLines(), emptyFacetLines, sb);
+        appendLines(EMPTY_FACET_LINES, cube.get(2).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, cube.get(4).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, cube.get(5).getLines(), EMPTY_FACET_LINES, sb);
 
         return sb.toString();
     }
@@ -58,71 +60,7 @@ class Cube {
         return cubeClone;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-
-        if ((obj == null) || (obj.getClass() != this.getClass())) {
-            return false;
-        }
-
-        if (obj == this) {
-            return true;
-        }
-
-        Cube otherCube = (Cube) obj;
-
-        return checkOppositeFaces(otherCube);
-    }
-
-    private boolean checkOppositeFaces(Cube thatCube) {
-
-        for (int index = 0; index < FACETS_COUNT / 2; index++) {
-
-            FacePermutation thisCubePermutation = cube.get(index);
-            boolean equals = false;
-
-            for (FacePermutation otherCubePermutation : thatCube.cube) {
-
-                if (otherCubePermutation.getFacet().equals(thisCubePermutation.getFacet())) {
-
-                    int thatCubePermutationIndex = thatCube.cube.indexOf(otherCubePermutation);
-                    int thisCubeOppositePermutationIndex = getOppositeIndex(index);
-                    int thatCubeOppositePermutationIndex = getOppositeIndex(thatCubePermutationIndex);
-
-                    FacePermutation thisCubeOppositePermutation = cube.get(thisCubeOppositePermutationIndex);
-                    FacePermutation thatCubeOppositePermutation = thatCube.cube.get(thatCubeOppositePermutationIndex);
-
-                    if (thisCubeOppositePermutation.getFacet().equals(thatCubeOppositePermutation.getFacet())) {
-                        equals = true;
-                        break;
-                    }
-
-                }
-
-            }
-
-            if (!equals) return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hashcode = 0;
-        if (cube.size() == FACETS_COUNT) {
-            for (int index = 0; index < FACETS_COUNT / 2; index++) {
-                hashcode += 7496 * cube.get(index).getFacet().hashCode() * cube.get(getOppositeIndex(index)).getFacet().hashCode();
-            }
-        }
-        return hashcode;
-    }
-
-    private static int getOppositeIndex(int index) {
-        return ((index + 3) % 6);
-    }
-
-    public List<FacePermutation> getCube() {
+    public List<Facet> getCube() {
         return cube;
     }
 

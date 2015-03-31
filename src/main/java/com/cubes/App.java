@@ -19,8 +19,7 @@ public class App {
 
         Solution s = new Solution(cube);
 
-        for (Cube c : s.solve())
-            System.out.println(c);
+        System.out.println(s.solve());
 
     }
 

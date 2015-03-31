@@ -3,7 +3,7 @@ package com.cubes;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.cubes.FacePermutation.FACET_SIZE;
+import static com.cubes.Facet.FACET_SIZE;
 import static com.cubes.FacetSide.BOTTOM;
 import static com.cubes.FacetSide.LEFT;
 import static com.cubes.FacetSide.RIGHT;
@@ -13,21 +13,21 @@ public enum FacetRule {
 
     FIRST(0) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation secondFacet) {
+        boolean checkFacet(Cube cube, Facet secondFacet) {
             // First facet always acceptable
             return true;
         }
     },
     SECOND(1) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation secondFacet) {
+        boolean checkFacet(Cube cube, Facet secondFacet) {
 
             return checkSides(getFirstFacet(cube).getSide(RIGHT), secondFacet.getSide(LEFT));
         }
     },
     THIRD(2) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation thirdFacet) {
+        boolean checkFacet(Cube cube, Facet thirdFacet) {
 
             return checkSides(getSecondFacet(cube).getSide(BOTTOM), thirdFacet.getSide(TOP))
                     && checkSides(getFirstFacet(cube).getSide(BOTTOM), thirdFacet.getSide(LEFT))
@@ -38,7 +38,7 @@ public enum FacetRule {
     },
     FOURTH(3) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation forthFacet) {
+        boolean checkFacet(Cube cube, Facet forthFacet) {
 
             return checkSides(getSecondFacet(cube).getSide(RIGHT), forthFacet.getSide(LEFT))
                     && checkSides(getThirdFacet(cube).getSide(RIGHT), forthFacet.getSide(BOTTOM))
@@ -49,7 +49,7 @@ public enum FacetRule {
     },
     FIFTH(4) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation fifthFacet) {
+        boolean checkFacet(Cube cube, Facet fifthFacet) {
 
             return checkSides(getThirdFacet(cube).getSide(BOTTOM), fifthFacet.getSide(TOP))
                     && checkSides(getFirstFacet(cube).getSide(LEFT), fifthFacet.getSide(LEFT))
@@ -63,7 +63,7 @@ public enum FacetRule {
     },
     SIXTH(5) {
         @Override
-        boolean checkFacet(Cube cube, FacePermutation sixthFacet) {
+        boolean checkFacet(Cube cube, Facet sixthFacet) {
 
             return checkSides(getFifthFacet(cube).getSide(BOTTOM), sixthFacet.getSide(TOP))
                     && checkSides(getFirstFacet(cube).getSide(TOP), sixthFacet.getSide(LEFT))
@@ -105,7 +105,7 @@ public enum FacetRule {
     /**
      * Method that verifies that facet one each next position is suitable
      */
-    abstract boolean checkFacet(Cube cube, FacePermutation facet);
+    abstract boolean checkFacet(Cube cube, Facet facet);
 
     /**
      * Checks that two sides suits each other
@@ -125,7 +125,7 @@ public enum FacetRule {
     }
 
     /**
-     * Checks that corners of 3 facets suits each other
+     * Checks that corners of 3 facets suits each other - just verifies that one of booleans is true
      */
     private static boolean checkCorner(boolean first, boolean second, boolean third) {
         return ((toInt(first) + toInt(second) + toInt(third) == 1));
@@ -135,23 +135,23 @@ public enum FacetRule {
         return corner ? 1 : 0;
     }
 
-    FacePermutation getFirstFacet(Cube cube) {
+    Facet getFirstFacet(Cube cube) {
         return cube.getCube().get(0);
     }
 
-    FacePermutation getSecondFacet(Cube cube) {
+    Facet getSecondFacet(Cube cube) {
         return cube.getCube().get(1);
     }
 
-    FacePermutation getThirdFacet(Cube cube) {
+    Facet getThirdFacet(Cube cube) {
         return cube.getCube().get(2);
     }
 
-    FacePermutation getFourthFacet(Cube cube) {
+    Facet getFourthFacet(Cube cube) {
         return cube.getCube().get(3);
     }
 
-    FacePermutation getFifthFacet(Cube cube) {
+    Facet getFifthFacet(Cube cube) {
         return cube.getCube().get(4);
     }
 
