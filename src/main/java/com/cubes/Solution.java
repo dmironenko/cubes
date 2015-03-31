@@ -34,6 +34,8 @@ class Solution {
         for (Facet facet : allFaces) {
             for (Facet permutation : facet.getAllPermutations()) {
                 FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(matched.size());
+
+                // Check if any of facet permutation matches its position
                 if (facetRule.checkFacet(matched, permutation)) {
                     List<Facet> matchedCopy = new LinkedList<>(matched);
                     List<Facet> allFacesCopy = new LinkedList<>(allFaces);

@@ -26,6 +26,7 @@ class Cube {
      *   3
      *   5
      *   6
+     *   Prints cube in normalized form
      */
     @Override
     public String toString() {
