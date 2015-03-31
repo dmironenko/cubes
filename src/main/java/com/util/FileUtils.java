@@ -18,16 +18,16 @@ public final class FileUtils {
     }
 
     /**
-     * Reads афсуеы from input stream
+     * Reads @{Facet} from input stream.
      */
     public static List<Facet> readFacets(InputStream stream) throws IOException {
         List<Facet> result = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             for (int i = 0; i < 2; i++) {
-                List<String> s1 = new ArrayList<>();
-                List<String> s2 = new ArrayList<>();
-                List<String> s3 = new ArrayList<>();
+                List<String> line1 = new ArrayList<>();
+                List<String> line2 = new ArrayList<>();
+                List<String> line3 = new ArrayList<>();
 
                 for (int j = 0; j < 5; j++) {
                     String line = reader.readLine();
@@ -35,13 +35,13 @@ public final class FileUtils {
                         throw new IllegalStateException("Input file has invalid format");
                     }
 
-                    s1.add(line.substring(0, 5));
-                    s2.add(line.substring(5, 10));
-                    s3.add(line.substring(10, 15));
+                    line1.add(line.substring(0, 5));
+                    line2.add(line.substring(5, 10));
+                    line3.add(line.substring(10, 15));
 
 
                 }
-                result.addAll(Arrays.asList(new Facet(s1), new Facet(s2), new Facet(s3)));
+                result.addAll(Arrays.asList(new Facet(line1), new Facet(line2), new Facet(line3)));
             }
         }
         return result;
