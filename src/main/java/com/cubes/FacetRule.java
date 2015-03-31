@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.cubes.FacePermutation.FACET_SIZE;
+import static com.cubes.Side.BOTTOM;
+import static com.cubes.Side.LEFT;
+import static com.cubes.Side.RIGHT;
+import static com.cubes.Side.TOP;
 
 public enum FacetRule {
 
@@ -18,62 +22,62 @@ public enum FacetRule {
         @Override
         boolean checkFacet(Cube cube, FacePermutation secondFacet) {
 
-            return checkSides(getFirstFacet(cube).getSide(Side.RIGHT), secondFacet.getSide(Side.LEFT));
+            return checkSides(getFirstFacet(cube).getSide(RIGHT), secondFacet.getSide(LEFT));
         }
     },
     THIRD(2) {
         @Override
         boolean checkFacet(Cube cube, FacePermutation thirdFacet) {
 
-            return checkSides(getSecondFacet(cube).getSide(Side.BOTTOM), thirdFacet.getSide(Side.TOP))
-                    && checkSides(getFirstFacet(cube).getSide(Side.BOTTOM), thirdFacet.getSide(Side.LEFT))
+            return checkSides(getSecondFacet(cube).getSide(BOTTOM), thirdFacet.getSide(TOP))
+                    && checkSides(getFirstFacet(cube).getSide(BOTTOM), thirdFacet.getSide(LEFT))
 
-                    && checkCorner(getSecondFacet(cube).getSide(Side.LEFT)[RIGHT_CORNER],
-                    getFirstFacet(cube).getSide(Side.RIGHT)[RIGHT_CORNER], thirdFacet.getSide(Side.TOP)[LEFT_CORNER]);
+                    && checkCorner(getSecondFacet(cube).getSide(LEFT)[RIGHT_CORNER],
+                    getFirstFacet(cube).getSide(RIGHT)[RIGHT_CORNER], thirdFacet.getSide(TOP)[LEFT_CORNER]);
         }
     },
     FOURTH(3) {
         @Override
         boolean checkFacet(Cube cube, FacePermutation forthFacet) {
 
-            return checkSides(getSecondFacet(cube).getSide(Side.RIGHT), forthFacet.getSide(Side.LEFT))
-                    && checkSides(getThirdFacet(cube).getSide(Side.RIGHT), forthFacet.getSide(Side.BOTTOM))
+            return checkSides(getSecondFacet(cube).getSide(RIGHT), forthFacet.getSide(LEFT))
+                    && checkSides(getThirdFacet(cube).getSide(RIGHT), forthFacet.getSide(BOTTOM))
 
-                    && checkCorner(getSecondFacet(cube).getSide(Side.BOTTOM)[LEFT_CORNER],
-                    getThirdFacet(cube).getSide(Side.TOP)[RIGHT_CORNER], forthFacet.getSide(Side.BOTTOM)[RIGHT_CORNER]);
+                    && checkCorner(getSecondFacet(cube).getSide(BOTTOM)[LEFT_CORNER],
+                    getThirdFacet(cube).getSide(TOP)[RIGHT_CORNER], forthFacet.getSide(BOTTOM)[RIGHT_CORNER]);
         }
     },
     FIFTH(4) {
         @Override
         boolean checkFacet(Cube cube, FacePermutation fifthFacet) {
 
-            return checkSides(getThirdFacet(cube).getSide(Side.BOTTOM), fifthFacet.getSide(Side.TOP))
-                    && checkSides(getFirstFacet(cube).getSide(Side.LEFT), fifthFacet.getSide(Side.LEFT))
-                    && checkSides(getFourthFacet(cube).getSide(Side.RIGHT), fifthFacet.getSide(Side.RIGHT))
+            return checkSides(getThirdFacet(cube).getSide(BOTTOM), fifthFacet.getSide(TOP))
+                    && checkSides(getFirstFacet(cube).getSide(LEFT), fifthFacet.getSide(LEFT))
+                    && checkSides(getFourthFacet(cube).getSide(RIGHT), fifthFacet.getSide(RIGHT))
 
-                    && checkCorner(getFourthFacet(cube).getSide(Side.RIGHT)[RIGHT_CORNER],
-                    getThirdFacet(cube).getSide(Side.RIGHT)[RIGHT_CORNER], fifthFacet.getSide(Side.RIGHT)[LEFT_CORNER])
-                    && checkCorner(getFirstFacet(cube).getSide(Side.LEFT)[LEFT_CORNER],
-                    getThirdFacet(cube).getSide(Side.LEFT)[LEFT_CORNER], fifthFacet.getSide(Side.LEFT)[RIGHT_CORNER]);
+                    && checkCorner(getFourthFacet(cube).getSide(RIGHT)[RIGHT_CORNER],
+                    getThirdFacet(cube).getSide(RIGHT)[RIGHT_CORNER], fifthFacet.getSide(RIGHT)[LEFT_CORNER])
+                    && checkCorner(getFirstFacet(cube).getSide(LEFT)[LEFT_CORNER],
+                    getThirdFacet(cube).getSide(LEFT)[LEFT_CORNER], fifthFacet.getSide(LEFT)[RIGHT_CORNER]);
         }
     },
     SIXTH(5) {
         @Override
         boolean checkFacet(Cube cube, FacePermutation sixthFacet) {
 
-            return checkSides(getFifthFacet(cube).getSide(Side.BOTTOM), sixthFacet.getSide(Side.TOP))
-                    && checkSides(getFirstFacet(cube).getSide(Side.TOP), sixthFacet.getSide(Side.LEFT))
-                    && checkSides(getFourthFacet(cube).getSide(Side.TOP), sixthFacet.getSide(Side.RIGHT))
-                    && checkSides(getSecondFacet(cube).getSide(Side.TOP), sixthFacet.getSide(Side.BOTTOM))
+            return checkSides(getFifthFacet(cube).getSide(BOTTOM), sixthFacet.getSide(TOP))
+                    && checkSides(getFirstFacet(cube).getSide(TOP), sixthFacet.getSide(LEFT))
+                    && checkSides(getFourthFacet(cube).getSide(TOP), sixthFacet.getSide(RIGHT))
+                    && checkSides(getSecondFacet(cube).getSide(TOP), sixthFacet.getSide(BOTTOM))
 
-                    && checkCorner(getFifthFacet(cube).getSide(Side.BOTTOM)[RIGHT_CORNER],
-                    getFirstFacet(cube).getSide(Side.TOP)[LEFT_CORNER], sixthFacet.getSide(Side.TOP)[LEFT_CORNER])
-                    && checkCorner(getFirstFacet(cube).getSide(Side.TOP)[RIGHT_CORNER],
-                    getSecondFacet(cube).getSide(Side.TOP)[LEFT_CORNER], sixthFacet.getSide(Side.LEFT)[LEFT_CORNER])
-                    && checkCorner(getSecondFacet(cube).getSide(Side.TOP)[RIGHT_CORNER],
-                    getFourthFacet(cube).getSide(Side.TOP)[LEFT_CORNER], sixthFacet.getSide(Side.RIGHT)[RIGHT_CORNER])
-                    && checkCorner(getFifthFacet(cube).getSide(Side.BOTTOM)[LEFT_CORNER],
-                    getFourthFacet(cube).getSide(Side.TOP)[RIGHT_CORNER], sixthFacet.getSide(Side.TOP)[RIGHT_CORNER]);
+                    && checkCorner(getFifthFacet(cube).getSide(BOTTOM)[RIGHT_CORNER],
+                    getFirstFacet(cube).getSide(TOP)[LEFT_CORNER], sixthFacet.getSide(TOP)[LEFT_CORNER])
+                    && checkCorner(getFirstFacet(cube).getSide(TOP)[RIGHT_CORNER],
+                    getSecondFacet(cube).getSide(TOP)[LEFT_CORNER], sixthFacet.getSide(LEFT)[LEFT_CORNER])
+                    && checkCorner(getSecondFacet(cube).getSide(TOP)[RIGHT_CORNER],
+                    getFourthFacet(cube).getSide(TOP)[LEFT_CORNER], sixthFacet.getSide(RIGHT)[RIGHT_CORNER])
+                    && checkCorner(getFifthFacet(cube).getSide(BOTTOM)[LEFT_CORNER],
+                    getFourthFacet(cube).getSide(TOP)[RIGHT_CORNER], sixthFacet.getSide(TOP)[RIGHT_CORNER]);
         }
     };
 
@@ -94,7 +98,7 @@ public enum FacetRule {
         this.matchedSideCount = matchedSideCount;
     }
 
-    public static FacetRule getByAlreadyMatchedSideCount(int count) {
+    public static FacetRule byAlreadyMatchedSideCount(int count) {
         return byMatchedSideCount.get(count);
     }
 

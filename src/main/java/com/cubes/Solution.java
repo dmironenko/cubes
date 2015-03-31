@@ -36,7 +36,7 @@ class Solution {
 
         for (Facet facet : cube.getCubeFaces()) {
 
-            FacetRule facetRule = FacetRule.getByAlreadyMatchedSideCount(cube.getCube().size());
+            FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(cube.getCube().size());
 
             for (FacePermutation permutation : facet.getFacePermutations()) {
 

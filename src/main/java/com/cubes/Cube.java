@@ -119,7 +119,7 @@ class Cube {
     }
 
     private static int getOppositeIndex(int index) {
-        return ((index + 3) % +6);
+        return ((index + 3) % 6);
     }
 
     public List<FacePermutation> getCube() {
