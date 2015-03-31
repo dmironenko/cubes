@@ -32,7 +32,6 @@
             <version>1.7.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
