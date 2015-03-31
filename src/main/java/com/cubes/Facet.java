@@ -2,24 +2,24 @@ package com.cubes;
 
 import com.util.ArrayUtils;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import static com.cubes.Cube.FACETS_COUNT;
 import static com.cubes.FacePermutation.CHAR_O;
 import static com.cubes.FacePermutation.FACET_SIZE;
-import static com.cubes.FacetSide.*;
+import static com.cubes.FacetSide.BOTTOM;
+import static com.cubes.FacetSide.LEFT;
+import static com.cubes.FacetSide.RIGHT;
+import static com.cubes.FacetSide.TOP;
 
 public class Facet {
 
     private final static int MAX_PERMUTATIONS = 8;
     private final static int SIDES_COUNT = 4;
-
-    private final Set<FacePermutation> facePermutations = new HashSet<>();
+    boolean[][] sides = new boolean[FACETS_COUNT][FACET_SIZE];
 
     public Facet(List<String> lines) {
-        boolean[][] sides = new boolean[FACETS_COUNT][FACET_SIZE];
         String line1 = lines.get(0);
         String line5 = lines.get(4);
         for (int i = 0; i < FACET_SIZE; i++) {
@@ -30,21 +30,25 @@ public class Facet {
             sides[2][FACET_SIZE - i - 1] = line5.charAt(i) == CHAR_O;
             sides[3][FACET_SIZE - i - 1] = line.charAt(0) == CHAR_O;
         }
-
-        getAllPermutations(sides);
     }
 
-    private void getAllPermutations(boolean[][] sides) {
+    public List<FacePermutation> getAllPermutations() {
+        List<FacePermutation> result = new LinkedList<>();
+
+        boolean[][] copy = deepCopy(sides);
 
         for (int index = 0; index < MAX_PERMUTATIONS; index++) {
 
             if (index == SIDES_COUNT) {
-                mirror(sides);
+                mirror(copy);
             }
 
-            facePermutations.add(new FacePermutation(this, deepCopy(sides)));
-            turnRight(sides);
+
+            result.add(new FacePermutation(this, deepCopy(copy)));
+            turnRight(copy);
         }
+
+        return result;
     }
 
     private static void turnRight(boolean[][] sides) {
@@ -75,9 +79,5 @@ public class Facet {
         }
 
         return sidesCopy;
-    }
-
-    public Set<FacePermutation> getFacePermutations() {
-        return facePermutations;
     }
 }

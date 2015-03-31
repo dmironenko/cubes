@@ -92,7 +92,7 @@ class Cube {
                     FacePermutation thisCubeOppositePermutation = cube.get(thisCubeOppositePermutationIndex);
                     FacePermutation thatCubeOppositePermutation = thatCube.cube.get(thatCubeOppositePermutationIndex);
 
-                    if (thisCubeOppositePermutation.getFacet() == thatCubeOppositePermutation.getFacet()) {
+                    if (thisCubeOppositePermutation.getFacet().equals(thatCubeOppositePermutation.getFacet())) {
                         equals = true;
                         break;
                     }

@@ -32,27 +32,30 @@ class Solution {
         return solution;
     }
 
-    private static void findNextFacet(Set<Cube> solution, Cube cube) {
+    private boolean findNextFacet(Set<Cube> solution, Cube cube) {
 
         for (Facet facet : cube.getCubeFaces()) {
 
-            FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(cube.getCube().size());
+            for (FacePermutation permutation : facet.getAllPermutations()) {
 
-            for (FacePermutation permutation : facet.getFacePermutations()) {
-
+                FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(cube.getCube().size());
                 if (facetRule.checkFacet(cube, permutation)) {
-
                     Cube cubeCopy = cube.deepCopy();
                     cubeCopy.getCube().add(permutation);
                     cubeCopy.getCubeFaces().remove(facet);
 
-                    findNextFacet(solution, cubeCopy);
+                    if (findNextFacet(solution, cubeCopy)) {
+                        break;
+                    }
                 }
             }
         }
 
         if (cube.getCube().size() == Cube.FACETS_COUNT) {
             solution.add(cube);
+            return true;
         }
+
+        return false;
     }
 }
