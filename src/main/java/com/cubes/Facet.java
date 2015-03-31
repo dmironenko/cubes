@@ -21,13 +21,14 @@ public class Facet {
     private static final char CHAR_SPACE = ' ';
     private static final char CHAR_O = 'o';
 
-    boolean[][] sides = new boolean[SIDES_COUNT][FACET_SIZE];
+    private final boolean[][] sides;
 
     public Facet(boolean[][] sides) {
         this.sides = deepCopy(sides);
     }
 
     public Facet(List<String> lines) {
+        sides = new boolean[SIDES_COUNT][FACET_SIZE];
         String line1 = lines.get(0);
         String line5 = lines.get(4);
         for (int i = 0; i < FACET_SIZE; i++) {
@@ -45,12 +46,10 @@ public class Facet {
 
         boolean[][] copy = deepCopy(sides);
 
-        for (int index = 0; index < MAX_PERMUTATIONS; index++) {
-
-            if (index == SIDES_COUNT) {
+        for (int i = 0; i < MAX_PERMUTATIONS; i++) {
+            if (i == SIDES_COUNT) {
                 mirror(copy);
             }
-
 
             result.add(new Facet(copy));
             turnRight(copy);
@@ -80,13 +79,13 @@ public class Facet {
 
     boolean[][] deepCopy(boolean[][] sides) {
 
-        boolean[][] sidesCopy = new boolean[SIDES_COUNT][FACET_SIZE];
+        boolean[][] copy = new boolean[SIDES_COUNT][FACET_SIZE];
 
-        for (int index = 0; index < SIDES_COUNT; index++) {
-            sidesCopy[index] = sides[index].clone();
+        for (int i = 0; i < SIDES_COUNT; i++) {
+            copy[i] = sides[i].clone();
         }
 
-        return sidesCopy;
+        return copy;
     }
 
     public List<String> getLines() {
@@ -119,7 +118,7 @@ public class Facet {
         return lines;
     }
 
-    char toChar(boolean c) {
+    private char toChar(boolean c) {
         return c ? CHAR_O : CHAR_SPACE;
     }
 

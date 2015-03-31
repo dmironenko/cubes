@@ -1,5 +1,8 @@
 package com.cubes;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * This class contains method to solve happy cube task
  * In result match of normalized form faces will be in nex position
@@ -20,25 +23,22 @@ class Solution {
      * Solves happy cube in brute force way.
      */
     public Cube solve() {
-        // First step of recursion
-        Cube copy = cube.deepCopy();
-
-        return findNextFacet(copy);
+        return findNextFacet(cube.getFaces(), new LinkedList<Facet>());
     }
 
-    private Cube findNextFacet(Cube cube) {
+    private Cube findNextFacet(List<Facet> allFaces, List<Facet> matched) {
 
-        for (Facet facet : cube.getCubeFaces()) {
-
+        for (Facet facet : allFaces) {
             for (Facet permutation : facet.getAllPermutations()) {
+                FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(matched.size());
+                if (facetRule.checkFacet(matched, permutation)) {
+                    List<Facet> matchedCopy = new LinkedList<>(matched);
+                    List<Facet> allFacesCopy = new LinkedList<>(allFaces);
 
-                FacetRule facetRule = FacetRule.byAlreadyMatchedSideCount(cube.getCube().size());
-                if (facetRule.checkFacet(cube, permutation)) {
-                    Cube cubeCopy = cube.deepCopy();
-                    cubeCopy.getCube().add(permutation);
-                    cubeCopy.getCubeFaces().remove(facet);
+                    matchedCopy.add(permutation);
+                    allFacesCopy.remove(facet);
 
-                    Cube nextFacet = findNextFacet(cubeCopy);
+                    Cube nextFacet = findNextFacet(allFacesCopy, matchedCopy);
                     if (nextFacet != null) {
                         return nextFacet;
                     }
@@ -46,8 +46,8 @@ class Solution {
             }
         }
 
-        if (cube.getCube().size() == Cube.FACETS_COUNT) {
-            return cube;
+        if (matched.size() == Cube.FACETS_COUNT) {
+            return new Cube(matched);
         }
 
         return null;

@@ -2,6 +2,7 @@ package com.cubes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,30 +14,27 @@ class Cube {
 
     private static final List<String> EMPTY_FACET_LINES = Arrays.asList("     ", "     ", "     ", "     ", "     ");
 
-    private List<Facet> cube = new ArrayList<>();
-    private final List<Facet> cubeFaces;
+    private final List<Facet> faces;
 
-    public Cube(List<Facet> cubeFaces) {
-        this.cubeFaces = new ArrayList<>(cubeFaces);
+    public Cube(List<Facet> faces) {
+        this.faces = new ArrayList<>(faces);
     }
 
     /**
      * Solution is stored next way
      * 1 2 4
-     * 3
-     * 5
-     * 6
+     *   3
+     *   5
+     *   6
      */
     @Override
     public String toString() {
-
-
         StringBuilder sb = new StringBuilder();
 
-        appendLines(cube.get(0).getLines(), cube.get(1).getLines(), cube.get(3).getLines(), sb);
-        appendLines(EMPTY_FACET_LINES, cube.get(2).getLines(), EMPTY_FACET_LINES, sb);
-        appendLines(EMPTY_FACET_LINES, cube.get(4).getLines(), EMPTY_FACET_LINES, sb);
-        appendLines(EMPTY_FACET_LINES, cube.get(5).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(faces.get(0).getLines(), faces.get(1).getLines(), faces.get(3).getLines(), sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(2).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(4).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(5).getLines(), EMPTY_FACET_LINES, sb);
 
         return sb.toString();
     }
@@ -50,22 +48,7 @@ class Cube {
         }
     }
 
-    /**
-     * Makes deep copy of cube
-     */
-    Cube deepCopy() {
-        Cube cubeClone = new Cube(cubeFaces);
-        cubeClone.cube = new ArrayList<>(cube);
-
-        return cubeClone;
+    public List<Facet> getFaces() {
+        return Collections.unmodifiableList(faces);
     }
-
-    public List<Facet> getCube() {
-        return cube;
-    }
-
-    public List<Facet> getCubeFaces() {
-        return cubeFaces;
-    }
-
 }
