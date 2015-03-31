@@ -5,11 +5,11 @@ import java.util.List;
 
 /**
  * This class contains method to solve happy cube task
- * In result match of normalized form faces will be in nex position
+ * In result match of normalized form faces will be in next position
  * 1 2 4
- *   3
- *   5
- *   6
+ * 3
+ * 5
+ * 6
  */
 class Solution {
 

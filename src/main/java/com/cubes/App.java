@@ -9,8 +9,14 @@ import java.nio.file.Paths;
 
 public class App {
 
+    /**
+     * Main method
+     * Possible arguments:
+     * arg[0] - full path to file with cube. If not specified uses blue cube
+     * Example of usage :
+     * java -jar cubes-1.0.jar /srv/blue_cube.txt
+     */
     public static void main(String[] args) throws IOException {
-
         Cube cube;
 
         try (InputStream stream = getInputStream(args)) {

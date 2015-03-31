@@ -31,19 +31,19 @@ class Cube {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        appendLines(faces.get(0).getLines(), faces.get(1).getLines(), faces.get(3).getLines(), sb);
-        appendLines(EMPTY_FACET_LINES, faces.get(2).getLines(), EMPTY_FACET_LINES, sb);
-        appendLines(EMPTY_FACET_LINES, faces.get(4).getLines(), EMPTY_FACET_LINES, sb);
-        appendLines(EMPTY_FACET_LINES, faces.get(5).getLines(), EMPTY_FACET_LINES, sb);
+        appendLines(faces.get(0).getLineForPrint(), faces.get(1).getLineForPrint(), faces.get(3).getLineForPrint(), sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(2).getLineForPrint(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(4).getLineForPrint(), EMPTY_FACET_LINES, sb);
+        appendLines(EMPTY_FACET_LINES, faces.get(5).getLineForPrint(), EMPTY_FACET_LINES, sb);
 
         return sb.toString();
     }
 
-    private void appendLines(List<String> lines1, List<String> lines2, List<String> lines4, StringBuilder sb) {
+    private void appendLines(List<String> lines1, List<String> lines2, List<String> lines3, StringBuilder sb) {
         for (int i = 0; i < lines1.size(); i++) {
             sb.append(lines1.get(i));
             sb.append(lines2.get(i));
-            sb.append(lines4.get(i));
+            sb.append(lines3.get(i));
             sb.append(System.lineSeparator());
         }
     }

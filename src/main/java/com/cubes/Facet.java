@@ -3,7 +3,6 @@ package com.cubes;
 import com.util.ArrayUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.cubes.FacetSide.BOTTOM;
@@ -11,6 +10,9 @@ import static com.cubes.FacetSide.LEFT;
 import static com.cubes.FacetSide.RIGHT;
 import static com.cubes.FacetSide.TOP;
 
+/**
+ * Class contains 2d array of facet
+ */
 public class Facet {
 
     public static final int FACET_SIZE = 5;
@@ -23,7 +25,7 @@ public class Facet {
 
     private final boolean[][] sides;
 
-    public Facet(boolean[][] sides) {
+    private Facet(boolean[][] sides) {
         this.sides = deepCopy(sides);
     }
 
@@ -42,7 +44,7 @@ public class Facet {
     }
 
     public List<Facet> getAllPermutations() {
-        List<Facet> result = new LinkedList<>();
+        List<Facet> result = new ArrayList<>(MAX_PERMUTATIONS);
 
         boolean[][] copy = deepCopy(sides);
 
@@ -52,32 +54,18 @@ public class Facet {
             }
 
             result.add(new Facet(copy));
+
             turnRight(copy);
         }
 
         return result;
     }
 
-    private static void turnRight(boolean[][] sides) {
-        boolean[] temp = sides[TOP.getOrder()];
-        sides[TOP.getOrder()] = sides[RIGHT.getOrder()];
-        sides[RIGHT.getOrder()] = sides[BOTTOM.getOrder()];
-        sides[BOTTOM.getOrder()] = sides[LEFT.getOrder()];
-        sides[LEFT.getOrder()] = temp;
+    public boolean[] getSide(FacetSide side) {
+        return sides[side.getOrder()];
     }
 
-    private static void mirror(boolean[][] sides) {
-        boolean[] temp = sides[RIGHT.getOrder()];
-        sides[RIGHT.getOrder()] = sides[LEFT.getOrder()];
-        sides[LEFT.getOrder()] = temp;
-
-        for (boolean[] side : sides) {
-            ArrayUtils.reverse(side);
-        }
-
-    }
-
-    boolean[][] deepCopy(boolean[][] sides) {
+    private boolean[][] deepCopy(boolean[][] sides) {
 
         boolean[][] copy = new boolean[SIDES_COUNT][FACET_SIZE];
 
@@ -88,7 +76,10 @@ public class Facet {
         return copy;
     }
 
-    public List<String> getLines() {
+    /**
+     * Gets lines of facet for printing
+     */
+    public List<String> getLineForPrint() {
         List<String> lines = new ArrayList<>(FACET_SIZE);
 
         StringBuilder sb = new StringBuilder();
@@ -122,7 +113,23 @@ public class Facet {
         return c ? CHAR_O : CHAR_SPACE;
     }
 
-    public boolean[] getSide(FacetSide side) {
-        return sides[side.getOrder()];
+    private static void turnRight(boolean[][] sides) {
+        boolean[] temp = sides[TOP.getOrder()];
+        sides[TOP.getOrder()] = sides[RIGHT.getOrder()];
+        sides[RIGHT.getOrder()] = sides[BOTTOM.getOrder()];
+        sides[BOTTOM.getOrder()] = sides[LEFT.getOrder()];
+        sides[LEFT.getOrder()] = temp;
     }
+
+    private static void mirror(boolean[][] sides) {
+        boolean[] temp = sides[RIGHT.getOrder()];
+        sides[RIGHT.getOrder()] = sides[LEFT.getOrder()];
+        sides[LEFT.getOrder()] = temp;
+
+        for (boolean[] side : sides) {
+            ArrayUtils.reverse(side);
+        }
+
+    }
+
 }
