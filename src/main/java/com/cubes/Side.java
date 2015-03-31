@@ -1,9 +1,9 @@
 package com.cubes;
 
 /**
- * Enum contains side of cube with defined order in Cube
+ * Enum contains order of facet sides
  */
-public enum Side {
+enum Side {
     TOP(0),
     RIGHT(1),
     BOTTOM(2),

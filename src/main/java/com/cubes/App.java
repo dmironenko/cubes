@@ -10,6 +10,21 @@ import java.nio.file.Paths;
 public class App {
 
     public static void main(String[] args) throws IOException {
+
+        Cube cube;
+
+        try (InputStream stream = getInputStream(args)) {
+            cube = new Cube(FileUtils.readFacets(stream));
+        }
+
+        Solution s = new Solution(cube);
+
+        for (Cube c : s.solve())
+            System.out.println(c);
+
+    }
+
+    private static InputStream getInputStream(String[] args) throws IOException {
         InputStream stream;
 
         if (args == null || args.length == 0) {
@@ -18,18 +33,6 @@ public class App {
             // Assuming args[0] contains path to file with facet
             stream = Files.newInputStream(Paths.get(args[0]));
         }
-
-        Cube cube = new Cube(FileUtils.readFacets(stream));
-
-        System.out.println(cube.toNormalForm());
-
-        System.out.println();
-        System.out.println();
-
-        Solution s = new Solution(cube);
-
-        Cube c = s.solve();
-
-        System.out.println(c.toNormalForm());
+        return stream;
     }
 }

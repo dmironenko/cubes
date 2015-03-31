@@ -2,24 +2,23 @@ package com.cubes;
 
 import com.util.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static com.cubes.Cube.FACETS_COUNT;
+import static com.cubes.FacePermutation.CHAR_O;
+import static com.cubes.FacePermutation.FACET_SIZE;
 
 public class Facet {
-    public static final char CHAR_O = 'o';
-    public static final char CHAR_SPACE = ' ';
 
-    public static final int FACET_SIZE = 5;
-    public static final int FACET_COUNT = 4;
+    private final static int MAX_PERMUTATIONS = 8;
+    private final static int SIDES_COUNT = 4;
 
-    private final boolean[][] sides = new boolean[FACET_COUNT][FACET_SIZE];
-    private int flag = 0;
+    private final Set<FacePermutation> facePermutations = new HashSet<>();
 
-    /**
-     * Stores only sides in order of @{Side} enum
-     */
     public Facet(List<String> lines) {
+        boolean[][] sides = new boolean[FACETS_COUNT][FACET_SIZE];
         String line1 = lines.get(0);
         String line5 = lines.get(4);
         for (int i = 0; i < FACET_SIZE; i++) {
@@ -30,94 +29,54 @@ public class Facet {
             sides[2][FACET_SIZE - i - 1] = line5.charAt(i) == CHAR_O;
             sides[3][FACET_SIZE - i - 1] = line.charAt(0) == CHAR_O;
         }
+
+        getAllPermutations(sides);
     }
 
-    Facet() {
+    private void getAllPermutations(boolean[][] sides) {
+
+        for (int index = 0; index < MAX_PERMUTATIONS; index++) {
+
+            if (index == SIDES_COUNT) {
+                mirror(sides);
+            }
+
+            facePermutations.add(new FacePermutation(this, deepCopy(sides)));
+            turnRight(sides);
+        }
     }
 
-    public void turn() {
-        mirrorIfRequired();
-
-        boolean[] temp = sides[0];
-        sides[0] = sides[1];
-        sides[1] = sides[2];
-        sides[2] = sides[3];
-        sides[3] = temp;
+    private static void turnRight(boolean[][] sides) {
+        boolean[] temp = sides[Side.TOP.getOrder()];
+        sides[Side.TOP.getOrder()] = sides[Side.RIGHT.getOrder()];
+        sides[Side.RIGHT.getOrder()] = sides[Side.BOTTOM.getOrder()];
+        sides[Side.BOTTOM.getOrder()] = sides[Side.LEFT.getOrder()];
+        sides[Side.LEFT.getOrder()] = temp;
     }
 
-    private void mirrorIfRequired() {
-        if (flag % 4 == 0) mirror();
-        flag += 1;
-    }
+    private static void mirror(boolean[][] sides) {
+        boolean[] temp = sides[Side.RIGHT.getOrder()];
+        sides[Side.RIGHT.getOrder()] = sides[Side.LEFT.getOrder()];
+        sides[Side.LEFT.getOrder()] = temp;
 
-    private void mirror() {
         for (boolean[] side : sides) {
             ArrayUtils.reverse(side);
         }
+
     }
 
-    public boolean[] getSide(Side side) {
-        return sides[side.getOrder()];
-    }
+    boolean[][] deepCopy(boolean[][] sides) {
 
-    @Override
-    public String toString() {
-        return Arrays.deepToString(sides);
-    }
+        boolean[][] sidesCopy = new boolean[SIDES_COUNT][FACET_SIZE];
 
-    Facet deepCopy() {
-        Facet facet = new Facet();
-        facet.flag = flag;
-
-        for (int i = 0; i < sides.length; i++) {
-            facet.sides[i] = Arrays.copyOf(sides[i], sides[i].length);
+        for (int index = 0; index < SIDES_COUNT; index++) {
+            sidesCopy[index] = sides[index].clone();
         }
 
-        return facet;
+        return sidesCopy;
     }
 
-    static List<Facet> deepClone(List<Facet> facets) {
-        List<Facet> clone = new ArrayList<>(facets.size());
-
-        for (Facet facet : facets) {
-            clone.add(facet.deepCopy());
-        }
-
-        return clone;
-    }
-
-    public List<String> getLines() {
-
-        List<String> lines = new ArrayList<>(FACET_SIZE);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < FACET_SIZE; i++) {
-            sb.append(toChar(sides[0][i]));
-        }
-
-        lines.add(sb.toString());
-
-        for (int i = 1; i < FACET_SIZE - 1; i++) {
-            sb = new StringBuilder();
-
-            sb.append(toChar(sides[3][FACET_SIZE - i - 1]));
-
-            sb.append(CHAR_O).append(CHAR_O).append(CHAR_O);
-            sb.append(toChar(sides[1][i]));
-            lines.add(sb.toString());
-        }
-
-        sb = new StringBuilder();
-        for (int i = 0; i < FACET_SIZE; i++) {
-            sb.append(toChar(sides[2][FACET_SIZE - i - 1]));
-        }
-
-        lines.add(sb.toString());
-
-        return lines;
-    }
-
-    char toChar(boolean c) {
-        return c ? CHAR_O : CHAR_SPACE;
+    public Set<FacePermutation> getFacePermutations() {
+        return facePermutations;
     }
 }

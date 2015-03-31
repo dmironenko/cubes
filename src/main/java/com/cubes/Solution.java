@@ -1,17 +1,17 @@
 package com.cubes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class contains method to solve happy cube task
  * In result match of normalized form faces will be in nex position
  * 1 2 4
- * 3
- * 5
- * 6
+ *   3
+ *   5
+ *   6
  */
-public class Solution {
+class Solution {
 
     private final Cube cube;
 
@@ -21,44 +21,38 @@ public class Solution {
 
     /**
      * Solves happy cube in brute force way.
-     * Takes each facet one by one turns / mirrors them and verifies that they suit each other
      */
-    public Cube solve() {
+    public Set<Cube> solve() {
         // First step of recursion
         Cube copy = cube.deepCopy();
 
-        List<Facet> matchedFacets = new ArrayList<>();
-        matchedFacets.add(copy.getCubeFacets().remove(0));
+        Set<Cube> solution = new HashSet<>();
+        findNextFacet(solution, copy);
 
-        List<Facet> result = new ArrayList<>();
-        findNextFacet(copy, matchedFacets, result);
-
-        return new Cube(result);
+        return solution;
     }
 
-    private boolean findNextFacet(Cube cube, List<Facet> currentMatch, List<Facet> result) {
-        if (currentMatch.size() == 6) {
-            if(result.isEmpty()) {
-                result.addAll(currentMatch);
-            }
-            return true;
-        }
+    private static void findNextFacet(Set<Cube> solution, Cube cube) {
 
-        for (Facet facet : cube.getCubeFacets()) {
-            FacetRule rule = FacetRule.getByAlreadyMatchedSideCount(currentMatch.size());
-            for (int i = 0; i < 8; i++, facet.turn()) {
-                if (rule.checkFacet(currentMatch, facet)) {
-                    Cube clone = cube.deepCopy();
-                    List<Facet> matchClone = Facet.deepClone(currentMatch);
+        for (Facet facet : cube.getCubeFaces()) {
 
-                    clone.getCubeFacets().remove(facet);
-                    matchClone.add(facet);
+            FacetRule facetRule = FacetRule.getByAlreadyMatchedSideCount(cube.getCube().size());
 
-                    findNextFacet(clone, matchClone, result);
+            for (FacePermutation permutation : facet.getFacePermutations()) {
+
+                if (facetRule.checkFacet(cube, permutation)) {
+
+                    Cube cubeCopy = cube.deepCopy();
+                    cubeCopy.getCube().add(permutation);
+                    cubeCopy.getCubeFaces().remove(facet);
+
+                    findNextFacet(solution, cubeCopy);
                 }
             }
         }
 
-        return false;
+        if (cube.getCube().size() == Cube.FACETS_COUNT) {
+            solution.add(cube);
+        }
     }
 }
