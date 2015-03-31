@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.cubes.FacePermutation.FACET_SIZE;
-import static com.cubes.Side.BOTTOM;
-import static com.cubes.Side.LEFT;
-import static com.cubes.Side.RIGHT;
-import static com.cubes.Side.TOP;
+import static com.cubes.FacetSide.BOTTOM;
+import static com.cubes.FacetSide.LEFT;
+import static com.cubes.FacetSide.RIGHT;
+import static com.cubes.FacetSide.TOP;
 
 public enum FacetRule {
 

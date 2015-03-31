@@ -18,7 +18,7 @@ public final class FileUtils {
     }
 
     /**
-     * Reads sides from input stream
+     * Reads афсуеы from input stream
      */
     public static List<Facet> readFacets(InputStream stream) throws IOException {
         List<Facet> result = new ArrayList<>();

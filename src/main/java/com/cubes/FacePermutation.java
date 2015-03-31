@@ -44,7 +44,7 @@ class FacePermutation {
         return Arrays.deepToString(sides);
     }
 
-    public boolean[] getSide(Side side) {
+    public boolean[] getSide(FacetSide side) {
         return sides[side.getOrder()];
     }
 

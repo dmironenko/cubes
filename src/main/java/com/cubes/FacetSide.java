@@ -3,7 +3,7 @@ package com.cubes;
 /**
  * Enum contains order of facet sides
  */
-enum Side {
+enum FacetSide {
     TOP(0),
     RIGHT(1),
     BOTTOM(2),
@@ -11,7 +11,7 @@ enum Side {
 
     private final int order;
 
-    private Side(int order) {
+    private FacetSide(int order) {
         this.order = order;
     }
 

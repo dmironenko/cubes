@@ -9,6 +9,7 @@ import java.util.Set;
 import static com.cubes.Cube.FACETS_COUNT;
 import static com.cubes.FacePermutation.CHAR_O;
 import static com.cubes.FacePermutation.FACET_SIZE;
+import static com.cubes.FacetSide.*;
 
 public class Facet {
 
@@ -47,17 +48,17 @@ public class Facet {
     }
 
     private static void turnRight(boolean[][] sides) {
-        boolean[] temp = sides[Side.TOP.getOrder()];
-        sides[Side.TOP.getOrder()] = sides[Side.RIGHT.getOrder()];
-        sides[Side.RIGHT.getOrder()] = sides[Side.BOTTOM.getOrder()];
-        sides[Side.BOTTOM.getOrder()] = sides[Side.LEFT.getOrder()];
-        sides[Side.LEFT.getOrder()] = temp;
+        boolean[] temp = sides[TOP.getOrder()];
+        sides[TOP.getOrder()] = sides[RIGHT.getOrder()];
+        sides[RIGHT.getOrder()] = sides[BOTTOM.getOrder()];
+        sides[BOTTOM.getOrder()] = sides[LEFT.getOrder()];
+        sides[LEFT.getOrder()] = temp;
     }
 
     private static void mirror(boolean[][] sides) {
-        boolean[] temp = sides[Side.RIGHT.getOrder()];
-        sides[Side.RIGHT.getOrder()] = sides[Side.LEFT.getOrder()];
-        sides[Side.LEFT.getOrder()] = temp;
+        boolean[] temp = sides[RIGHT.getOrder()];
+        sides[RIGHT.getOrder()] = sides[LEFT.getOrder()];
+        sides[LEFT.getOrder()] = temp;
 
         for (boolean[] side : sides) {
             ArrayUtils.reverse(side);
